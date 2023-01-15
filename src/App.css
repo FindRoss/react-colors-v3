@@ -1,0 +1,24 @@
+body {
+  background: #f4faff;
+}
+
+.color--pane__content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em 1em;
+}
+
+.color--pane__icon-set {
+  display: flex;
+}
+
+.color--pane__icon-set div {
+  margin-left: 0.5em;
+}
+
+.color--pane__icon-set div i {
+  font-size: 1.25em;
+  cursor: pointer;
+}

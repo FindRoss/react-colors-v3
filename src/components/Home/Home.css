@@ -1,0 +1,28 @@
+.color--grid {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.color--box {
+  margin-bottom: 2em;
+  flex-basis: 47.5%;
+}
+
+.color--pane__container {
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+}
+
+.color--pane {
+  padding: 0.3em;
+  display: flex;
+  flex: 1;
+}
+
+@media screen and (max-width: 650px) {
+  .color--box {
+    flex-basis: 100%;
+  }
+}
