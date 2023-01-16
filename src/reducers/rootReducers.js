@@ -7,7 +7,7 @@ import { handleAddPane } from '../actions/handleAddPane';
 const initialState = {
   palettes: [
     {
-      title: 'Test',
+      title: 'Website',
       id: '5426432',
       colors: [
         {
@@ -19,7 +19,7 @@ const initialState = {
       ]
     },
     {
-      title: 'Another one',
+      title: 'Project colors',
       id: '42336331',
       colors: [
         {
