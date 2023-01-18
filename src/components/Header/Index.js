@@ -1,11 +1,8 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from "react-router-dom";
 
-import { makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Typography from '@material-ui/core/Typography'
-import Toolbar from '@material-ui/core/Toolbar'
+import { AppBar, Typography, Toolbar } from '@mui/material';
 
-const useStyles = makeStyles({
+const useStyles = {
   nav: {
     marginBottom: '1rem'
   },
@@ -17,15 +14,16 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-between'
   }
-});
+};
 
 function Index() {
-  const classes = useStyles();
 
   return (
-    <AppBar className={classes.nav} position="static">
-      <Toolbar className={classes.layout}>
-        <Typography variant="h6"><Link className={classes.link} to="/">React Colors</Link></Typography>
+    <AppBar style={useStyles.nav} position="static">
+      <Toolbar style={useStyles.layout}>
+        <Typography variant="h6">
+          <NavLink style={useStyles.link} to="/">React Colors</NavLink>
+        </Typography>
       </Toolbar>
     </AppBar>
 

@@ -22,3 +22,29 @@ body {
   font-size: 1.25em;
   cursor: pointer;
 }
+
+.title-layout {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.title {
+  margin-right: 1rem;
+}
+
+.title-input {
+  margin-right: 1rem;
+}
+
+.addNewBox {
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addNewBtn {
+  color: #3f51b5;
+  background: #d3dbe2;
+}

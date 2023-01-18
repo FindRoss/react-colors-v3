@@ -1,28 +1,27 @@
-import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Navigate } from "react-router-dom";
+
 import uuid from 'react-uuid'
 import { getRandomColor } from '../actions/randomColor'
-import { ADD_NEW } from '../actions/types'
 
-import { makeStyles } from '@material-ui/core/styles'
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import Button from '@material-ui/core/Button';
+import { Button } from '@mui/material'
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-const useStyles = makeStyles({
-  addNewCont: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    marginBottom: '1rem'
-  },
-});
+import { addPalette } from '../features/Foobar';
 
-function AddNew({ dispatch }) {
-  const classes = useStyles();
+const addNewCont = {
+  display: 'flex',
+  justifyContent: 'flex-end',
+  marginBottom: '1rem'
+};
+
+function AddNew() {
+  const dispatch = useDispatch();
 
   function handleAddNew() {
-    const newId = uuid()
+    const newId = uuid();
 
-    const newPalette = {
+    dispatch(addPalette({
       id: newId,
       title: 'Untitled',
       colors: [
@@ -36,21 +35,18 @@ function AddNew({ dispatch }) {
           hex: getRandomColor()
         }
       ]
-    }
+    }));
 
-    dispatch({
-      type: ADD_NEW,
-      payload: newPalette
-    });
-
-    return <Redirect push to={`/palette/${newId}/`} />;
+    // return <Redirect push to={`/palette/${newId}/`} />;
+    // return history.push(`/palette/${newId}`);
+    return <Navigate replace to={`/palette/${newId}/`} />;
   }
 
   return (
-    <div className={classes.addNewCont}>
+    <div style={addNewCont}>
       <Button variant="contained" color="primary" startIcon={<AddCircleIcon />} onClick={handleAddNew}>Add New</Button>
     </div>
   )
 }
 
-export default connect()(AddNew);
+export default AddNew;

@@ -1,14 +1,17 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { deletePane, updateColor } from '../features/Foobar';
 
-import { makeStyles } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
-import AutorenewIcon from '@material-ui/icons/Autorenew'
-import DeleteIcon from '@material-ui/icons/Delete'
-import FileCopyIcon from '@material-ui/icons/FileCopy'
-import TextField from '@material-ui/core/TextField'
-import Tooltip from '@material-ui/core/Tooltip'
+import { getRandomColor } from '../actions/randomColor'
 
-const useStyles = makeStyles({
+import { IconButton, TextField, Tooltip } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
+
+
+const useStyles = {
   roundButton: {
     background: '#FFFFFF',
     color: '#000000',
@@ -53,12 +56,11 @@ const useStyles = makeStyles({
     maxWidth: 110,
     color: '#000000'
   }
-})
+}
 
-function Pane({ color, index, colorChange, deletePane }) {
+function Pane({ color, index, id }) {
   const [open, setOpen] = useState(false);
-
-  const classes = useStyles();
+  const dispatch = useDispatch();
 
   const bg = { backgroundColor: `${color}` }
 
@@ -74,7 +76,17 @@ function Pane({ color, index, colorChange, deletePane }) {
   function handleCopy() {
     copyTextToClipboard(color);
     setOpen(true);
-  }
+  };
+
+  function handleDeletePane() {
+    dispatch(deletePane({ id, index }))
+  };
+
+  function handleColorChange() {
+    const randomColor = getRandomColor();
+    console.log(index);
+    dispatch(updateColor({ id, index, color: randomColor }))
+  };
 
   return (
     <>
@@ -82,38 +94,34 @@ function Pane({ color, index, colorChange, deletePane }) {
         style={bg}
         className="color--pane">
         <div className="color--pane__content">
-          <div className={classes.hexBox}>
+          <div style={useStyles.hexBox}>
             <TextField
               multiline
               variant="outlined"
               value={color}
-              classes={{
-                root: classes.inputRoot
-              }}
+              style={useStyles.inputRoot}
             />
             <Tooltip
-              classes={{
-                tooltip: classes.tools,
-              }}
+              style={useStyles.tools}
               title="Copied!"
               placement="top"
               open={open}
             >
-              <IconButton onClick={handleCopy} className={classes.copyHex}>
-                <FileCopyIcon style={{ color: '#000' }} />
+              <IconButton onClick={handleCopy} style={useStyles.copyHex}>
+                <ContentCopyIcon style={{ color: '#000' }} />
               </IconButton>
             </Tooltip>
           </div>
           <div className="color--pane__icon-set">
             <IconButton
-              className={classes.roundButton}
-              onClick={() => deletePane(index)}
+              style={useStyles.roundButton}
+              onClick={handleDeletePane}
             >
               <DeleteIcon />
             </IconButton>
             <IconButton
-              className={classes.roundButton}
-              onClick={() => colorChange(index)}
+              style={useStyles.roundButton}
+              onClick={handleColorChange}
             >
               <AutorenewIcon />
             </IconButton>

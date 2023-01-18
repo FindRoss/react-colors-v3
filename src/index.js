@@ -1,20 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { StrictMode } from 'react';
+import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import rootReducer from './reducers/rootReducers';
-import { createStore } from 'redux';
+
 import { Provider } from 'react-redux';
+import { configureStore } from "@reduxjs/toolkit";
+import paletteReducer from "./features/Foobar";
 
-// const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = configureStore({
+  reducer: {
+    foobar: paletteReducer
+  }
+})
 
-const store = createStore(rootReducer);
-
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+// const store = createStore(rootReducer);
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </StrictMode>
 );
+
 
 

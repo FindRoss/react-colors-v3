@@ -1,145 +1,81 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import { UPDATE_PANE, UPDATE_TITLE, DELETE_PANE, ADD_PANE } from '../../actions/types'
-import { getRandomColor } from '../../actions/randomColor'
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import Pane from '../Pane'
+import { updateTitle, addPane } from '../../features/Foobar';
+import { getRandomColor } from '../../actions/randomColor'
 
+import { IconButton, TextField, Button, Typography } from '@mui/material'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import EditIcon from '@mui/icons-material/Edit';
+import CircleIcon from '@mui/icons-material/Circle';
 
-import { makeStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import EditIcon from '@material-ui/icons/Edit'
-import IconButton from '@material-ui/core/IconButton'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import Typography from '@material-ui/core/Typography'
+function Palette() {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const palette = useSelector((state) => state.foobar.value.filter(pal => pal.id === id)[0]);
+  const { title, colors } = palette;
 
-
-const useStyles = makeStyles({
-  titleLayout: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '1em'
-  },
-  title: {
-    marginRight: 6
-  },
-  input: {
-    marginRight: 6
-  },
-  addNewBox: {
-    padding: '1.5rem 2rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-  },
-  addNewBtn: {
-    color: '#3f51b5',
-    background: '#d3dbe2'
-  }
-})
-
-
-function Palette({ palette, dispatch }) {
-  const [inputTitle, updateInputTitle] = useState(palette.title)
+  const [inputTitle, updateInputTitle] = useState("")
   const [showTitle, setShowTitle] = useState(true)
-  const classes = useStyles();
-
-  const { title, id, colors } = palette;
 
   function handleTitleSubmit(e) {
     e.preventDefault();
-
-    dispatch({
-      type: UPDATE_TITLE,
-      payload: {
-        id,
-        title: inputTitle
-      }
-    })
-
+    dispatch(updateTitle({ id, title: inputTitle }));
     setShowTitle(true)
   }
-
-  function handlePaneColorChange(index) {
-    let randomColor = getRandomColor();
-
-    dispatch({
-      type: UPDATE_PANE,
-      payload: {
-        id,
-        index,
-        randomColor
-      }
-    })
-  };
-
-  function handleDeletePane(index) {
-    dispatch({
-      type: DELETE_PANE,
-      payload: {
-        id,
-        index
-      }
-    })
-  };
 
   function handleAddPane() {
     const newColor = getRandomColor();
 
-    dispatch({
-      type: ADD_PANE,
-      payload: {
-        id,
-        newColor
-      }
-    })
+    dispatch(addPane({ id, color: newColor }))
   }
+
 
   if (palette && palette !== {}) {
     return (
       <>
         <div className="color--palette">
           {showTitle ? (
-            <div className={classes.titleLayout}>
-              <Typography className={classes.title} component="h1" variant="h5">{title}</Typography>
+            <div className="title-layout">
+              <Typography className="title" component="h1" variant="h5">{title}</Typography>
+              {/* Was IconButton */}
               <IconButton onClick={() => setShowTitle(false)} aria-label="delete">
                 <EditIcon />
               </IconButton>
             </div>
           ) : (
-              <div className={classes.titleLayout}>
-                <form onSubmit={handleTitleSubmit}>
-                  <TextField
-                    variant="outlined"
-                    type="text"
-                    className={classes.input}
-                    value={inputTitle}
-                    label="title"
-                    size="small"
-                    onChange={(e) => updateInputTitle(e.target.value)} />
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="large"
-                    type="submit"
-                  >Update</Button>
-                </form>
-              </div>
-            )}
+            <div className="title-layout">
+              <form onSubmit={handleTitleSubmit}>
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  classNane="title-input"
+                  value={inputTitle}
+                  label="title"
+                  size="small"
+                  onChange={(e) => updateInputTitle(e.target.value)} />
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                  type="submit"
+                >Update</Button>
+              </form>
+            </div>
+          )}
           {colors.map((color, index) => (
             <Pane
               key={index}
               index={index}
               color={color.hex}
-              colorChange={handlePaneColorChange}
-              deletePane={handleDeletePane}
+              id={id}
             />
           )
           )}
         </div>
-        <div className={classes.addNewBox}>
-          <IconButton onClick={() => handleAddPane()} className={classes.addNewBtn}>
+        <div className="addNewBox">
+          <IconButton onClick={handleAddPane} className="addNewBtn">
             <AddCircleOutlineIcon />
           </IconButton>
         </div>
@@ -152,22 +88,4 @@ function Palette({ palette, dispatch }) {
   }
 }
 
-
-
-
-const mapStateToProps = (state, ownProps) => {
-
-  // change from string to number. 
-  // let paramsID = parseInt(ownProps.match.params.id);
-
-  // get paramsID string
-  let paramsID = ownProps.match.params.id;
-
-  // find the correct palette that relates to the 
-  let filteredState = state.palettes.filter(pal => (pal.id === paramsID))
-  return {
-    palette: filteredState[0]
-  }
-}
-
-export default connect(mapStateToProps)(Palette);
+export default Palette;
