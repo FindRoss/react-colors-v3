@@ -1,8 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink } from "react-router-dom";
-import AddNew from '../AddNew';
-import './Home.css';
+import AddNew from './AddNew';
 import { Card, CardActionArea, CardHeader } from '@mui/material'
 
 function Home() {

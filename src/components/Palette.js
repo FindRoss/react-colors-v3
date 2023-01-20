@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import Pane from '../Pane'
-import { updateTitle, addPane } from '../../features/Foobar';
-import { getRandomColor } from '../../actions/randomColor'
+import Pane from './Pane'
+import { updateTitle, addPane } from '../features/Foobar';
+import { getRandomColor } from '../randomColor'
 
 import { IconButton, TextField, Button, Typography } from '@mui/material'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
-import CircleIcon from '@mui/icons-material/Circle';
 
 function Palette() {
   const dispatch = useDispatch();
@@ -27,7 +26,6 @@ function Palette() {
 
   function handleAddPane() {
     const newColor = getRandomColor();
-
     dispatch(addPane({ id, color: newColor }))
   }
 

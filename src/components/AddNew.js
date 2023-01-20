@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux'
 import { Navigate } from "react-router-dom";
 
 import uuid from 'react-uuid'
-import { getRandomColor } from '../actions/randomColor'
+import { getRandomColor } from '../randomColor'
 
 import { Button } from '@mui/material'
 import AddCircleIcon from '@mui/icons-material/AddCircle';

@@ -1,11 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Tutorial: https://www.youtube.com/watch?v=bml92jhF4t8
-
 import './App.css';
-import Header from './components/Header/Index';
-import Home from './components/Home/Home';
-import Palette from './components/Palette/Palette';
+import Header from './components/Header';
+import Home from './components/Home';
+import Palette from './components/Palette';
 
 import Container from '@mui/material/Container';
 

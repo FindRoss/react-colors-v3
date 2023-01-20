@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { deletePane, updateColor } from '../features/Foobar';
 
-import { getRandomColor } from '../actions/randomColor'
+import { getRandomColor } from '../randomColor'
 
 import { IconButton, TextField, Tooltip } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
